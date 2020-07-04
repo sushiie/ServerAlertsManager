@@ -1,0 +1,82 @@
+<ng-container *ngIf="data.modalType==='add'">
+    <h1 mat-dialog-title>Add Details for New Alert</h1>
+    <div mat-dialog-content class="mat-typography">
+        <div class="row">
+            <mat-label>Host: </mat-label><span>{{dataService.selectedServer}}</span>
+        </div>
+        <div class="row">
+            <mat-form-field>
+                <mat-label>Alert Type: </mat-label>
+                <mat-select [(ngModel)]="selectedAlertType">
+                    <mat-option *ngFor="let alertType of alertTypes" [value]="alertType">{{alertType}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <ng-container *ngIf="selectedAlertType==='Web Server'">
+            <div class="row">
+                <mat-form-field>
+                    <mat-label>URL: </mat-label>
+                    <input matInput [(ngModel)]="serverUrl" [disabled]="selectedAlertType===''">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field>
+                    <mat-label>Response: </mat-label>
+                    <mat-select [(ngModel)]="serverUrlCondition" [disabled]="selectedAlertType===''">
+                        <mat-option value="contains">Contains</mat-option>
+                        <mat-option value="does not contain">Does not contain</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Search String</mat-label>
+                    <textarea matInput [(ngModel)]="searchString"[disabled]="selectedAlertType===''"></textarea>
+                </mat-form-field>
+            </div>            
+        </ng-container>
+        <ng-container *ngIf="selectedAlertType!=='Web Server'">
+            <div class="row">
+                <mat-form-field>
+                    <mat-label>Condition: </mat-label>
+                    <mat-select [(ngModel)]="nonServerCondition" [disabled]="selectedAlertType===''">
+                        <mat-option value="more than">Is More than (>)</mat-option>
+                        <mat-option value="less than">Is Less Than (<)</mat-option>
+                        <mat-option value="equals">Equal to (=)</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field>
+                    <mat-label>Value: </mat-label>
+                    <input matInput [(ngModel)]="nonServerConditionValue" [disabled]="selectedAlertType===''">
+                </mat-form-field>
+        
+            </div>          
+        </ng-container>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onCancelClick()">Cancel</button>
+        <button mat-button cdkFocusInitial (click)="onAddClick()">Add</button>
+        <!-- [mat-dialog-close]="data.animal" -->
+    </div>
+</ng-container>
+
+<ng-container *ngIf="data.modalType==='configure'">
+    <h1 mat-dialog-title>Configure Alerts</h1>
+    <div mat-dialog-content class="mat-typography">
+        <div class="row">
+            <mat-checkbox [color]="'warn'" [(ngModel)]="dataService.isSendingAlert">Send alert on following emails</mat-checkbox>
+        </div>
+        <br/>
+        <div class="row">
+            <mat-form-field appearance="fill">
+                <mat-label>Emails to be added:</mat-label>
+                <textarea matInput [(ngModel)]="dataService.mailerList" >{{dataService.mailerList}}</textarea>
+            </mat-form-field>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button cdkFocusInitial (click)="onSaveClick()">Save</button>
+    </div>
+</ng-container>

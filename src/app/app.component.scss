@@ -1,0 +1,19 @@
+.wrapper {
+    width: 70%;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid black;
+}
+
+.rightAlignedContent {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.field-label {
+    margin-right: 10px;
+}
+
+table {
+    width: 100%;
+}
